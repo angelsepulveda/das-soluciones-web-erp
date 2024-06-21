@@ -20,9 +20,13 @@ import {
   FIND_ALL_CATEGORY_SERVICE,
   FIND_BY_ID_CATEGORY_SERVICE,
   UPDATE_CATEGORY_SERVICE,
+  UPDATE_CATEGORY_USECASE,
 } from '@warehouse/categories/application/config/category.config';
-import { CreateCategoryCommandHandler } from '@warehouse/categories/application/entrypoint/commands/create/create-category.command-handler';
+import { CreateCategoryCommandHandler } from '@warehouse/categories/infrastructure/entrypoint/commands/create/create-category.command-handler';
 import { CreateCategoryController } from '@warehouse/categories/infrastructure/http/create-category.controller';
+import { UpdateCategoryController } from './http/update-category.controller';
+import { UpdateCategoryCommandHandler } from './entrypoint/commands/update/update-category.command-handler';
+import { UpdateCategoryUsecase } from '../application/usecases/update-category.usecase';
 
 export type CategoriesModuleOptions = {
   modules: Type[];
@@ -43,6 +47,17 @@ export class CategoriesModule {
         return new CreateCategoryUsecase(createService);
       },
       inject: [CREATE_CATEGORY_SERVICE],
+    };
+
+    const UpdateCategoryUseCaseProvider = {
+      provide: UPDATE_CATEGORY_USECASE,
+      useFactory: (
+        findByIdService: FindByIdCategoryDomainService,
+        updateService: UpdateCategoryDomainService,
+      ) => {
+        return new UpdateCategoryUsecase(findByIdService, updateService);
+      },
+      inject: [UPDATE_CATEGORY_SERVICE],
     };
 
     const CreateCategoryServiceProvider = {
@@ -92,6 +107,8 @@ export class CategoriesModule {
         FindAllCategoryRepositoryAdapter,
         CreateCategoryUseCaseProvider,
         CreateCategoryCommandHandler,
+        UpdateCategoryCommandHandler,
+        UpdateCategoryUseCaseProvider,
       ],
       exports: [
         CreateCategoryRepositoryAdapter,
@@ -100,7 +117,7 @@ export class CategoriesModule {
         FindAllCategoryRepositoryAdapter,
         CreateCategoryUseCaseProvider,
       ],
-      controllers: [CreateCategoryController],
+      controllers: [CreateCategoryController, UpdateCategoryController],
     };
   }
 }

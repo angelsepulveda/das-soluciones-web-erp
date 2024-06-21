@@ -1,7 +1,7 @@
 import { Body, Controller, Post } from '@nestjs/common';
 import { CommandBus } from '@nestjs/cqrs';
-import { CreateCategoryDto } from '@warehouse/categories/application/dtos/create-category.dto';
-import { CreateCategoryCommand } from '@warehouse/categories/application/entrypoint/commands/create/create-category.command';
+import { CreateCategoryDto } from '@warehouse/categories/infrastructure/dtos/create-category.dto';
+import { CreateCategoryCommand } from '@warehouse/categories/infrastructure/entrypoint/commands/create/create-category.command';
 
 @Controller('/categories/create')
 export class CreateCategoryController {
