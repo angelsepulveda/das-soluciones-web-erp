@@ -1,8 +1,9 @@
 import { Entity } from 'typeorm';
 import { Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Nullable } from '@core/domain/primitives/nullable';
 
-@Entity()
-export class Category {
+@Entity('categories')
+export class CategoryEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -14,10 +15,10 @@ export class Category {
   @Column('text', {
     nullable: true,
   })
-  description?: string;
+  description: Nullable<string>;
 
   @Column('boolean', {
     default: true,
   })
-  state: boolean;
+  status: boolean;
 }

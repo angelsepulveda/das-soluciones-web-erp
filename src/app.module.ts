@@ -1,22 +1,14 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { CategoriesModule } from './categories/categories.module';
+import { CategoriesModule } from '@warehouse/categories/infrastructure/categories.module';
+import { InfrastructureModule } from '@core/infrastructure/infrastructure.module';
+import { CqrsModule } from '@nestjs/cqrs';
 
 @Module({
   imports: [
-    ConfigModule.forRoot(),
-    TypeOrmModule.forRoot({
-      type: 'postgres',
-      host: process.env.DB_HOST,
-      port: Number(process.env.DB_PORT),
-      database: process.env.DB_NAME,
-      username: process.env.DB_USERNAME,
-      password: process.env.DB_PASSWORD,
-      autoLoadEntities: true,
-      synchronize: Boolean(process.env.DB_SYNC),
+    InfrastructureModule,
+    CategoriesModule.register({
+      modules: [InfrastructureModule, CqrsModule],
     }),
-    CategoriesModule,
   ],
 })
 export class AppModule {}
