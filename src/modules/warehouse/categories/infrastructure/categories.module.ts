@@ -18,15 +18,20 @@ import {
   CREATE_CATEGORY_SERVICE,
   CREATE_CATEGORY_USECASE,
   FIND_ALL_CATEGORY_SERVICE,
+  FIND_ALL_CATEGORY_USECASE,
   FIND_BY_ID_CATEGORY_SERVICE,
   UPDATE_CATEGORY_SERVICE,
   UPDATE_CATEGORY_USECASE,
 } from '@warehouse/categories/application/config/category.config';
 import { CreateCategoryCommandHandler } from '@warehouse/categories/infrastructure/entrypoint/commands/create/create-category.command-handler';
-import { CreateCategoryController } from '@warehouse/categories/infrastructure/http/create-category.controller';
-import { UpdateCategoryController } from './http/update-category.controller';
+import { CreateCategoryController } from '@warehouse/categories/infrastructure/http/controllers/create-category.controller';
+import { UpdateCategoryController } from './http/controllers/update-category.controller';
 import { UpdateCategoryCommandHandler } from './entrypoint/commands/update/update-category.command-handler';
 import { UpdateCategoryUsecase } from '../application/usecases/update-category.usecase';
+import { FindAllCategoryUseCase } from '@warehouse/categories/application/usecases/find-all-category.usecase';
+import { FindAllCategoryQuery } from '@warehouse/categories/infrastructure/entrypoint/queries/find-all/find-all-category.query';
+import { FindAllCategoryController } from '@warehouse/categories/infrastructure/http/controllers/find-all-category.controller';
+import { FindAllCategoryQueryHandler } from '@warehouse/categories/infrastructure/entrypoint/queries/find-all/find-all-category.query-handler';
 
 export type CategoriesModuleOptions = {
   modules: Type[];
@@ -47,6 +52,14 @@ export class CategoriesModule {
         return new CreateCategoryUsecase(createService);
       },
       inject: [CREATE_CATEGORY_SERVICE],
+    };
+
+    const FindAllCategoryUseCaseProvider = {
+      provide: FIND_ALL_CATEGORY_USECASE,
+      useFactory: (findAllService: FindAllCategoryDomainService) => {
+        return new FindAllCategoryUseCase(findAllService);
+      },
+      inject: [FIND_ALL_CATEGORY_SERVICE],
     };
 
     const UpdateCategoryUseCaseProvider = {
@@ -109,6 +122,8 @@ export class CategoriesModule {
         CreateCategoryCommandHandler,
         UpdateCategoryCommandHandler,
         UpdateCategoryUseCaseProvider,
+        FindAllCategoryUseCaseProvider,
+        FindAllCategoryQueryHandler,
       ],
       exports: [
         CreateCategoryRepositoryAdapter,
@@ -116,8 +131,14 @@ export class CategoriesModule {
         FindByIdCategoryRepositoryAdapter,
         FindAllCategoryRepositoryAdapter,
         CreateCategoryUseCaseProvider,
+        UpdateCategoryUseCaseProvider,
+        FindAllCategoryUseCaseProvider,
       ],
-      controllers: [CreateCategoryController, UpdateCategoryController],
+      controllers: [
+        CreateCategoryController,
+        UpdateCategoryController,
+        FindAllCategoryController,
+      ],
     };
   }
 }
