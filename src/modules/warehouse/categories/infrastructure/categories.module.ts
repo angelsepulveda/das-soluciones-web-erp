@@ -1,19 +1,19 @@
 import { DynamicModule, Module, Type } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { CategoryEntity } from '@warehouse/categories/infrastructure/database/entities/category.entity';
-import { CreateCategoryRepository } from '@warehouse/categories/domain/ports/outbound/repositories/create-category.repository';
-import { UpdateCategoryRepository } from '@warehouse/categories/domain/ports/outbound/repositories/update-category.repository';
-import { FindAllCategoryRepository } from '@warehouse/categories/domain/ports/outbound/repositories/find-all-category.repository';
-import { FindByIdCategoryRepository } from '@warehouse/categories/domain/ports/outbound/repositories/find-by-id-category.repository';
-import { CreateCategoryDomainService } from '@warehouse/categories/domain/services/create-category-domain.service';
-import { UpdateCategoryDomainService } from '@warehouse/categories/domain/services/update-category-domain.service';
-import { FindAllCategoryDomainService } from '@warehouse/categories/domain/services/find-all-category-domain.service';
-import { FindByIdCategoryDomainService } from '@warehouse/categories/domain/services/find-by-id-category-domain.service';
-import { CreateCategoryRepositoryAdapter } from '@warehouse/categories/infrastructure/adapters/create-category-repository.adapter';
-import { UpdateCategoryRepositoryAdapter } from '@warehouse/categories/infrastructure/adapters/update-category-repository.adapter';
-import { FindByIdCategoryRepositoryAdapter } from '@warehouse/categories/infrastructure/adapters/find-by-id-category-repository.adapter';
-import { FindAllCategoryRepositoryAdapter } from '@warehouse/categories/infrastructure/adapters/find-all-category-repository.adapter';
-import { CreateCategoryUsecase } from '@warehouse/categories/application/usecases/create-category.usecase';
+import { CategoryEntity } from '@warehouse/categories/infrastructure/Datebase/Entities/CategoryEntity';
+import { CreateCategoryRepository } from '@warehouse/categories/domain/ports/outbound/repositories/CreateCategoryRepository';
+import { UpdateCategoryRepository } from '@warehouse/categories/domain/ports/outbound/repositories/UpdateCategoryRepository';
+import { FindAllCategoryRepository } from '@warehouse/categories/domain/ports/outbound/repositories/FindAllCategoryRepository';
+import { FindByIdCategoryRepository } from '@warehouse/categories/domain/ports/outbound/repositories/FindByIdCategoryRepository';
+import { CreateCategoryDomainService } from '@warehouse/categories/domain/Services/CreateCategoryDomainService';
+import { UpdateCategoryDomainService } from '@warehouse/categories/domain/Services/UpdateCategoryDomainService';
+import { FindAllCategoryDomainService } from '@warehouse/categories/domain/Services/FindAllCategoryDomainService';
+import { FindByIdCategoryDomainService } from '@warehouse/categories/domain/Services/FindByIdCategoryDomainService';
+import { CreateCategoryRepositoryAdapter } from '@warehouse/categories/infrastructure/Adapters/CreateCategoryRepositoryAdapter';
+import { UpdateCategoryRepositoryAdapter } from '@warehouse/categories/infrastructure/Adapters/UpdateCategoryRepositoryAdapter';
+import { FindByIdCategoryRepositoryAdapter } from '@warehouse/categories/infrastructure/Adapters/FindByIdCategoryRepositoryAdapter';
+import { FindAllCategoryRepositoryAdapter } from '@warehouse/categories/infrastructure/Adapters/FindAllCategoryRepositoryAdapter';
+import { CreateCategoryUseCase } from '@warehouse/categories/application/UseCases/CreateCategoryUseCase';
 import {
   CREATE_CATEGORY_SERVICE,
   CREATE_CATEGORY_USECASE,
@@ -22,16 +22,16 @@ import {
   FIND_BY_ID_CATEGORY_SERVICE,
   UPDATE_CATEGORY_SERVICE,
   UPDATE_CATEGORY_USECASE,
-} from '@warehouse/categories/application/config/category.config';
-import { CreateCategoryCommandHandler } from '@warehouse/categories/infrastructure/entrypoint/commands/create/create-category.command-handler';
+} from '@warehouse/categories/application/Config/CategoryConfig';
+import { CreateCategoryCommandHandler } from '@warehouse/categories/infrastructure/Entrypoints/Commands/Create/CreateCategoryCommandHandler';
 import { CreateCategoryController } from '@warehouse/categories/infrastructure/http/controllers/create-category.controller';
 import { UpdateCategoryController } from './http/controllers/update-category.controller';
-import { UpdateCategoryCommandHandler } from './entrypoint/commands/update/update-category.command-handler';
-import { UpdateCategoryUsecase } from '../application/usecases/update-category.usecase';
-import { FindAllCategoryUseCase } from '@warehouse/categories/application/usecases/find-all-category.usecase';
-import { FindAllCategoryQuery } from '@warehouse/categories/infrastructure/entrypoint/queries/find-all/find-all-category.query';
+import { UpdateCategoryCommandHandler } from './Entrypoints/Commands/Update/UpdateCategoryCommandHandler';
+import { UpdateCategoryUseCase } from '@warehouse/categories/application/UseCases/UpdateCategoryUseCase';
+import { FindAllCategoryUseCase } from '@warehouse/categories/application/UseCases/FindAllCategoryUseCase';
+import { FindAllCategoryQuery } from '@warehouse/categories/infrastructure/Entrypoints/Queries/FindAll/FindAllCategoryQuery';
 import { FindAllCategoryController } from '@warehouse/categories/infrastructure/http/controllers/find-all-category.controller';
-import { FindAllCategoryQueryHandler } from '@warehouse/categories/infrastructure/entrypoint/queries/find-all/find-all-category.query-handler';
+import { FindAllCategoryQueryHandler } from '@warehouse/categories/infrastructure/Entrypoints/Queries/FindAll/FindAllCategoryQueryHandler';
 
 export type CategoriesModuleOptions = {
   modules: Type[];
@@ -49,7 +49,7 @@ export class CategoriesModule {
     const CreateCategoryUseCaseProvider = {
       provide: CREATE_CATEGORY_USECASE,
       useFactory: (createService: CreateCategoryDomainService) => {
-        return new CreateCategoryUsecase(createService);
+        return new CreateCategoryUseCase(createService);
       },
       inject: [CREATE_CATEGORY_SERVICE],
     };
@@ -68,7 +68,7 @@ export class CategoriesModule {
         findByIdService: FindByIdCategoryDomainService,
         updateService: UpdateCategoryDomainService,
       ) => {
-        return new UpdateCategoryUsecase(findByIdService, updateService);
+        return new UpdateCategoryUseCase(findByIdService, updateService);
       },
       inject: [UPDATE_CATEGORY_SERVICE],
     };

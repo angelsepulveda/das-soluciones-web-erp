@@ -1,8 +1,8 @@
 import { Body, Controller, Put } from '@nestjs/common';
 import { CommandBus } from '@nestjs/cqrs';
-import { UpdateCategoryDto } from '../../dtos/update-category.dto';
-import { CategoryDto } from '../../dtos/category.dto';
-import { UpdateCategoryCommand } from '../../entrypoint/commands/update/update-category.command';
+import { UpdateCategoryDto } from '@warehouse/categories/infrastructure/Dtos/UpdateCategoryDto';
+import { CategoryDto } from '@warehouse/categories/infrastructure/Dtos/CategoryDto';
+import { UpdateCategoryCommand } from '../../Entrypoints/Commands/Update/UpdateCategoryCommand';
 
 @Controller('/categories/update')
 export class UpdateCategoryController {

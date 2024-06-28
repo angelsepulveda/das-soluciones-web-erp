@@ -1,7 +1,7 @@
 import { Controller, Get } from '@nestjs/common';
 import { QueryBus } from '@nestjs/cqrs';
-import { FindAllCategoryQuery } from '@warehouse/categories/infrastructure/entrypoint/queries/find-all/find-all-category.query';
-import { CategoryDto } from '@warehouse/categories/infrastructure/dtos/category.dto';
+import { FindAllCategoryQuery } from '@warehouse/categories/infrastructure/Entrypoints/Queries/FindAll/FindAllCategoryQuery';
+import { CategoryDto } from '@warehouse/categories/infrastructure/Dtos/CategoryDto';
 
 @Controller('/categories/get-all')
 export class FindAllCategoryController {
